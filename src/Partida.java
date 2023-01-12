@@ -6,7 +6,6 @@ public class Partida {
 	private Jogador jogadorAtual;
 	private Tabuleiro tabuleiro;
 
-	
 	public Partida(Jogador jogador1, Jogador jogador2) {
 		super();
 		this.jogador1 = jogador1;
@@ -16,13 +15,15 @@ public class Partida {
 	}
 	
 	private static boolean controleDeJogada = false;
-	
 	public void fazerJogada(int x, int y) {
 		if(!controleDeJogada) {
 			this.tabuleiro.fazerJogada(x, y);
 			controleDeJogada = true;
 		} else {
-			if(this.tabuleiro.fazerJogada(x, y)) {
+			this.tabuleiro.fazerJogada(x, y);
+			System.out.print(this.toString());
+			
+			if(this.tabuleiro.verificarJogada()) {
 				jogadorAtual.setScore(this.jogadorAtual.getScore() + 1);
 			} else {
 				if(this.jogadorAtual.equals(this.jogador1))
@@ -35,8 +36,9 @@ public class Partida {
 		}
 	}
 	
+	@Override
 	public String toString() {
-		return this.jogadorAtual.getNome();
+		return "\n" + this.tabuleiro.toString() + "\nJogador " + this.jogadorAtual.getId() + " de nome " + this.jogadorAtual.getNome() + " informe sua jogada";
 	}
 	
 	public Jogador getJogador1() {
