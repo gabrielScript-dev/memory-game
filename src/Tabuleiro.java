@@ -3,9 +3,11 @@ import java.util.Random;
 public class Tabuleiro {
 
 	private Peca[][] tabuleiro;
+	private Peca[] pecasJogadas;
 	
 	public Tabuleiro() {	
 		this.tabuleiro = new Peca[4][4];
+		this.pecasJogadas = new Peca[2];
 		this.iniciarTabuleiro();
 	}
 	
@@ -25,20 +27,31 @@ public class Tabuleiro {
 	
 	private void iniciarTabuleiro() {
 		for(int m = 0; m < this.tabuleiro.length; m++) {
-			//System.out.println("|---.---.---.---|");
 			Peca[] vetorRandom = vetorRandom();
 			for(int n = 0; n < this.tabuleiro.length; n++) {
 				this.tabuleiro[m][n] = vetorRandom[n];
-				//System.out.print("| " + this.tabuleiro[m][n].getValor() + " ");
-				if(n == 3) {
-					//System.out.print("|");
-				}
 			}
-			
-			//System.out.println();
 		}
-		
-		//System.out.println("|---.---.---.---|");
+	}
+	
+	public void virarPecas() {
+		this.pecasJogadas[0].setEstadoDeVisibilidade(false);
+		this.pecasJogadas[1].setEstadoDeVisibilidade(false);
+	}
+	
+	private boolean controleDeJogada = false;	
+	public boolean fazerJogada(int x, int y) {
+		if(!controleDeJogada) {
+			pecasJogadas[0] = this.tabuleiro[x][y];
+			pecasJogadas[0].setEstadoDeVisibilidade(true);
+			controleDeJogada = true;
+			return false;
+		} else {
+			pecasJogadas[1] = this.tabuleiro[x][y];
+			pecasJogadas[1].setEstadoDeVisibilidade(true);
+			controleDeJogada = false;
+			return true;
+		}
 	}
 	
 	@Override
@@ -64,46 +77,22 @@ public class Tabuleiro {
 		tabuleiro += "   |---.---.---.---|\n";
 		return tabuleiro;
 	}
-	private static Peca pecas[] = new Peca[2];
-	private static boolean controleDeJogada = false;
-	
-	
-	public boolean verificarJogada() {
-		if(pecas[0].getValor().equals(pecas[1].getValor())) {
-			System.out.println("Acertou!");
-			return true;
-		} else {
-			System.out.println("Errou!");
-			pecas[0].setEstadoDeVisibilidade(false);
-			pecas[1].setEstadoDeVisibilidade(false);
-			
-			return false;
-		}
-	}
-	
-	public boolean fazerJogada(int x, int y) {
-		boolean retorno = false;
-		
-		if(!controleDeJogada) {
-			pecas[0] = this.tabuleiro[x][y];
-			pecas[0].setEstadoDeVisibilidade(true);
-			controleDeJogada = true;
-			
-		} else {
-			pecas[1] = this.tabuleiro[x][y];
-			pecas[1].setEstadoDeVisibilidade(true);
-			
-			controleDeJogada = false;
-		}
-		
-		return retorno;
-	}
-		
+
 	public Peca[][] getTabuleiro() {
 		return tabuleiro;
 	}
-	
+
 	public void setTabuleiro(Peca[][] tabuleiro) {
 		this.tabuleiro = tabuleiro;
 	}
+
+	public Peca[] getPecasJogadas() {
+		return pecasJogadas;
+	}
+
+	public void setPecasJogadas(Peca[] pecasJogadas) {
+		this.pecasJogadas = pecasJogadas;
+	}
+	
+	
 }

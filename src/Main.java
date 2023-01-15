@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
-
+	
 	public static void main(String[] args) {
 		Scanner entrada = new Scanner(System.in);
 		
@@ -10,16 +10,31 @@ public class Main {
 		
 		Partida partida = new Partida(jogador1, jogador2);
 		
-		for(int i = 0; i < 20; i++) {
+		boolean segundaJogada = false;
+		
+		while(partida.getQtdParesRevelados() <= 8) {
 			System.out.println(partida.toString());
-			System.out.print("Informe o valor de X: ");
-			int x = entrada.nextInt();
-			System.out.print("Informe o valor de Y: ");
-			int y = entrada.nextInt();
-			partida.fazerJogada(x, y);
+			
+			if(segundaJogada) {
+				if(partida.verificarJogada()) {
+					System.out.println("O jogador de nome " + partida.getJogadorAtual().getNome() + " acertou!");
+					partida.setQtdParesRevelados(1);
+					partida.getJogadorAtual().setScore(1);
+				} else {
+					System.out.println("O jogador de nome " + partida.getJogadorAtual().getNome() + " errou!");
+					partida.trocarJogador();
+				}
+				segundaJogada = false;
+			} else {
+				System.out.print("Informe o valor de X: ");
+				int x = entrada.nextInt();
+				System.out.print("Informe o valor de Y: ");
+				int y = entrada.nextInt();
+				
+				segundaJogada = partida.fazerJogada(x, y);
+			}
 		}
 		
 		entrada.close();
 	}
-
 }

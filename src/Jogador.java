@@ -27,6 +27,6 @@ public class Jogador extends Pessoa {
 	}
 
 	public void setScore(int score) {
-		this.score = score;
+		this.score += score;
 	}
 }
